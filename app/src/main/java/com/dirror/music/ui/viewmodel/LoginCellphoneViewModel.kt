@@ -59,11 +59,10 @@ class LoginCellphoneViewModel : ViewModel() {
         val passwordMD5 = SkySecure.getMD5(password)
         viewModelScope.launch {
             val map = HashMap<String, String>()
-            map["phone"] = phone
-            map["countrycode"] = "86"
+            map["email"] = phone
             map["md5_password"] = passwordMD5
             val userDetail =
-                HttpUtils.loginPost("${api}/login/cellphone", map, UserDetailData::class.java)
+                HttpUtils.loginPost("${api}/login", map, UserDetailData::class.java)
             if (userDetail != null && userDetail.code == 200) {
                 User.apply {
                     AppConfig.cookie = userDetail.cookie ?: String.EMPTY
