@@ -129,10 +129,6 @@ class SearchActivity : BaseActivity() {
                 changeSearchEngine(SearchViewModel.ENGINE_BILIBILI)
             }
 
-            itemOpenSource.setOnClickListener {
-                openUrlByBrowser(this@SearchActivity, "https://github.com/Moriafly/DsoMusic")
-            }
-
             searchTypeView.setMainFabClosedDrawable(
                 resources.getDrawable(
                     SearchType.getIconRes(
