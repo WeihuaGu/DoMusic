@@ -52,12 +52,8 @@ class LoginByPhoneActivity : BaseActivity() {
     lateinit var binding: ActivityLoginByPhoneBinding
 
     override fun initBinding() {
-        if (getString(R.string.app_name).md5() == SkySecure.getAppNameMd5()) {
             binding = ActivityLoginByPhoneBinding.inflate(layoutInflater)
             setContentView(binding.root)
-        } else {
-            ActivityCollector.finishAll()
-        }
     }
 
     override fun initListener() {
