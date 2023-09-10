@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/cellphone_number"
+                android:text="@string/email"
                 android:textColor="@color/colorSubTextForeground"
                 android:textSize="12sp" />
 
@@ -123,18 +123,6 @@
             <TextView
                 style="@style/style_settings_title"
                 android:text="网易云 API 服务" />
-
-            <TextView
-                android:id="@+id/tvTip2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:lineSpacingExtra="@dimen/lineSpacingExtra"
-                android:text="Dso Music 现不提供自带手机号登录，请先配置网易云 API 再使用手机号登录"
-                android:textColor="@color/colorSubTextForeground"
-                android:textSize="12sp" />
 
             <com.dirror.music.widget.ItemLayout
                 android:id="@+id/itemNeteaseCloudMusicApi"
