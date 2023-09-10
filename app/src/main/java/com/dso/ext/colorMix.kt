@@ -1,4 +1,5 @@
 package com.dso.ext
+import android.graphics.Color
 fun Int.colorMix(vararg colors: Int): Int {
     val colorCount = colors.size
     var mixedColor = this
