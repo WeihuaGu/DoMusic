@@ -65,6 +65,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.system.exitProcess
 
+import java.io.File
+import okhttp3.Cache
+import okhttp3.OkHttpClient
+
 /**
  * Dso Music 音乐播放服务
  *
@@ -318,6 +322,13 @@ class MusicService : BaseMediaService() {
      */
     inner class MusicController : Binder(), MusicControllerInterface, MediaPlayer.OnPreparedListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+
+	val cacheDirectory = File(context.cacheDir, "music_cache")
+	val cacheSize = 15 * 1024 * 1024 // 15 MB
+	val cache = Cache(cacheDirectory, cacheSize.toLong())
+	val okHttpClient = OkHttpClient.Builder()
+    		.cache(cache)
+    		.build()
 
         /** MediaPlayer */
         val mediaPlayer: MediaPlayer = MediaPlayer()
