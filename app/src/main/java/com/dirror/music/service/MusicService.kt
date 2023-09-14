@@ -39,6 +39,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.MutableLiveData
 import coil.imageLoader
@@ -457,8 +458,9 @@ class MusicService : BaseMediaService() {
                     						  val outputStream = FileOutputStream(tempFile)
                     						  inputStream.copyTo(outputStream)
                     						  outputStream.close()
-								  val tempuri = Uri.fromFile(tempFile)
 								  Log.d("MediaPlayer", "音频数据写入临时文件成功，路径: ${tempFile.path}")
+								  val tempuri = FileProvider.getUriForFile(context, "com.music.app.fileprovider", tempFile)
+Log.d("MediaPlayer", "音频文件的 Uri: ${uri.toString()}")
                                 				  setDataSource(applicationContext,tempuri)
                             					} catch (e: Exception) {
                                 					// 错误处理
