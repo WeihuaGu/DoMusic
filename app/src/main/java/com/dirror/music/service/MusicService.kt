@@ -60,12 +60,13 @@ import com.dso.ext.*
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.system.exitProcess
 
+import java.util.*
 import java.io.File
+import java.io.IOException
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -444,7 +445,7 @@ class MusicService : BaseMediaService() {
 
                 				override fun onResponse(call: Call, response: Response) {
                     				    if (response.isSuccessful) {
-                        				val inputStream = response.body?.byteStream()
+                        				val inputStream = response.body()?.byteStream()
                         				if (inputStream != null) {
                             					// 将下载的音频文件设置给 MediaPlayer
                             					try {
