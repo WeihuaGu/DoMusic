@@ -457,8 +457,9 @@ class MusicService : BaseMediaService() {
                     						  val outputStream = FileOutputStream(tempFile)
                     						  inputStream.copyTo(outputStream)
                     						  outputStream.close()
+								  val tempuri = Uri.fromFile(tempFile)
 								  Log.d("MediaPlayer", "音频数据写入临时文件成功，路径: ${tempFile.path}")
-                                				  setDataSource(applicationContext,tempFile.path)
+                                				  setDataSource(applicationContext,tempuri)
                             					} catch (e: Exception) {
                                 					// 错误处理
 									Log.e("MediaPlayer", "写入临时文件发生异常: ${e.message}")
