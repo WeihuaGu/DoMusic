@@ -68,6 +68,8 @@ import kotlin.system.exitProcess
 import java.io.File
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.Request
+
 
 /**
  * Dso Music 音乐播放服务
@@ -324,7 +326,7 @@ class MusicService : BaseMediaService() {
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
 	val cacheDirectory = File(context.cacheDir, "music_cache")
-	val cacheSize = 15 * 1024 * 1024 // 15 MB
+	val cacheSize = 300 * 1024 * 1024 // 300 MB
 	val cache = Cache(cacheDirectory, cacheSize.toLong())
 	val okHttpClient = OkHttpClient.Builder()
     		.cache(cache)
@@ -430,7 +432,32 @@ class MusicService : BaseMediaService() {
                                             setDataSource(applicationContext, uri, BilibiliUrl.headers)
                                         }else {
                                             Log.i("SETURL"," NORMALURL " + it)
-                                            setDataSource(it)
+					    val request = Request.Builder()
+                				.url(it)
+                				.build()
+					    okHttpClient.newCall(request).enqueue(object : Callback {
+                				override fun onFailure(call: Call, e: IOException) {
+                    					// 下载失败的处理
+                				}
+
+                				override fun onResponse(call: Call, response: Response) {
+                    				    if (response.isSuccessful) {
+                        				val inputStream = response.body?.byteStream()
+                        				if (inputStream != null) {
+                            					// 将下载的音频文件设置给 MediaPlayer
+                            					try {
+                                            			  Log.i("cache request"," NORMALURL " + it)
+                                				  setDataSource(inputStream.fd)
+                            					} catch (e: Exception) {
+                                					// 错误处理
+                            					}
+                        				}
+                    				    } else {
+                        				// 下载失败的处理
+                    				    }
+                				}
+            				    })
+
                                         }
                                     } catch (e: Exception) {
                                         Log.e("FYERROR", "error", e)
