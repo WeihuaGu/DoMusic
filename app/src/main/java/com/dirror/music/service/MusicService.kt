@@ -413,6 +413,9 @@ class MusicService : BaseMediaService() {
             mediaPlayer.apply {
                 ServiceSongUrl.getUrlProxy(song) {
                     runOnMainThread {
+                        setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
+                        setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
+                        setOnErrorListener(this@MusicController)
                         if (it == null || it is String && it.isEmpty()) {
                             if (playNext) {
                                 toast("当前歌曲不可用, 播放下一首")
@@ -460,8 +463,9 @@ class MusicService : BaseMediaService() {
                     						  outputStream.close()
 								  Log.d("MediaPlayer", "音频数据写入临时文件成功，路径: ${tempFile.path}")
 								  val tempuri = FileProvider.getUriForFile(context, "com.music.app.fileprovider", tempFile)
-Log.d("MediaPlayer", "音频文件的 Uri: ${tempuri.toString()}")
+								  Log.d("MediaPlayer", "音频文件的 Uri: ${tempuri.toString()}")
                                 				  setDataSource(applicationContext,tempuri)
+                        					  prepareAsync()
                             					} catch (e: Exception) {
                                 					// 错误处理
 									Log.e("MediaPlayer", "写入临时文件发生异常: ${e.message}")
@@ -484,6 +488,7 @@ Log.d("MediaPlayer", "音频文件的 Uri: ${tempuri.toString()}")
                             is Uri -> {
                                 try {
                                     setDataSource(applicationContext, it)
+                        	    prepareAsync()
                                 } catch (e: Exception) {
                                     onError(mediaPlayer, -1, 0)
                                     return@runOnMainThread
@@ -493,10 +498,6 @@ Log.d("MediaPlayer", "音频文件的 Uri: ${tempuri.toString()}")
                                 return@runOnMainThread
                             }
                         }
-                        setOnPreparedListener(this@MusicController) // 歌曲准备完成的监听
-                        setOnCompletionListener(this@MusicController) // 歌曲完成后的回调
-                        setOnErrorListener(this@MusicController)
-                        prepareAsync()
                     }
                 }
             }
