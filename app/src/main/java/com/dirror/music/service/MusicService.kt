@@ -75,6 +75,7 @@ import okhttp3.Request
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 
 /**
  * Dso Music 音乐播放服务
@@ -333,7 +334,16 @@ class MusicService : BaseMediaService() {
 	val cacheDirectory = File(context.cacheDir, "music_cache")
 	val cacheSize = 300 * 1024 * 1024 // 300 MB
 	val cache = Cache(cacheDirectory, cacheSize.toLong())
+	val loggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+    		override fun log(message: String) {
+        	// 输出 OkHttp 的日志信息
+        	Log.d("domusic_okhttp", message)
+    		}
+	}).apply {
+    		level = HttpLoggingInterceptor.Level.BODY
+	}
 	val okHttpClient = OkHttpClient.Builder()
+		.addInterceptor(loggingInterceptor)
     		.cache(cache)
     		.build()
 
