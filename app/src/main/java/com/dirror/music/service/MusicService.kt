@@ -460,7 +460,7 @@ class MusicService : BaseMediaService() {
                     						  outputStream.close()
 								  Log.d("MediaPlayer", "音频数据写入临时文件成功，路径: ${tempFile.path}")
 								  val tempuri = FileProvider.getUriForFile(context, "com.music.app.fileprovider", tempFile)
-Log.d("MediaPlayer", "音频文件的 Uri: ${uri.toString()}")
+Log.d("MediaPlayer", "音频文件的 Uri: ${tempuri.toString()}")
                                 				  setDataSource(applicationContext,tempuri)
                             					} catch (e: Exception) {
                                 					// 错误处理
