@@ -442,6 +442,7 @@ class MusicService : BaseMediaService() {
 					    okHttpClient.newCall(request).enqueue(object : Callback {
                 				override fun onFailure(call: Call, e: IOException) {
                     					// 下载失败的处理
+							Log.e("MediaPlayer", "下载音频数据失败: ${e.message}")
                 				}
 
                 				override fun onResponse(call: Call, response: Response) {
@@ -456,9 +457,11 @@ class MusicService : BaseMediaService() {
                     						  val outputStream = FileOutputStream(tempFile)
                     						  inputStream.copyTo(outputStream)
                     						  outputStream.close()
+								  Log.d("MediaPlayer", "音频数据写入临时文件成功，路径: ${tempFile.path}")
                                 				  setDataSource(tempFile.path)
                             					} catch (e: Exception) {
                                 					// 错误处理
+									Log.e("MediaPlayer", "写入临时文件发生异常: ${e.message}")
                             					}
                         				}
                     				    } else {
