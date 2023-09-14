@@ -66,6 +66,7 @@ import kotlin.system.exitProcess
 
 import java.util.*
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -450,7 +451,12 @@ class MusicService : BaseMediaService() {
                             					// 将下载的音频文件设置给 MediaPlayer
                             					try {
                                             			  Log.i("cache request"," NORMALURL " + it)
-                                				  setDataSource(inputStream.fd)
+
+								  val tempFile = File(context.cacheDir, "temp.mp3")
+                    						  val outputStream = FileOutputStream(tempFile)
+                    						  inputStream.copyTo(outputStream)
+                    						  outputStream.close()
+                                				  setDataSource(tempFile.path)
                             					} catch (e: Exception) {
                                 					// 错误处理
                             					}
