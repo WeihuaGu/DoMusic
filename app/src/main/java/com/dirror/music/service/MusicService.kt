@@ -335,6 +335,10 @@ class MusicService : BaseMediaService() {
 	val cacheDirectory = File(context.cacheDir, "music_cache")
 	val cacheSize = 300 * 1024 * 1024 // 300 MB
 	val cache = Cache(cacheDirectory, cacheSize.toLong())
+	val musicFileDir = File(context.cacheDir, "music_file")
+	if (!musicFileDir.exists()) {
+    		musicFileDir.mkdirs()
+	}
 	val eventListener = object : EventListener() {
     	   override fun responseHeadersEnd(call: Call, response: Response) {
         	val netResponse = response.networkResponse()
@@ -387,6 +391,10 @@ class MusicService : BaseMediaService() {
         var personFM = MutableLiveData<Boolean>().also {
             it.value = mmkv.decodeBool(Config.PERSON_FM_MODE, false)
         }
+	fun isSongCached(songId: String): Boolean {
+    		val cachedFile = File(musicFileDir, "$songId.mp3")
+    		return cachedFile.exists()
+	}
 
         override fun setPersonFM(open: Boolean) {
             if (open) {
@@ -455,13 +463,15 @@ class MusicService : BaseMediaService() {
                                     toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
                                     return@runOnMainThread
                                 } else {
+                                    Log.i("SETURL"," NORMALURL " + it)
                                     try {
-                                        if(it.contains("bilivideo")){
-                                            val uri = Uri.parse(it)
-                                            Log.i("SETURL"," BILIBILIURL " + it + " " + Gson().toJson(BilibiliUrl.headers))
-                                            setDataSource(applicationContext, uri, BilibiliUrl.headers)
+                                        if(isSongCached(song.id)){
+                                            Log.i("cache music", "id: ${song.id} name: ${song.name}")
+					    val cachedFile = File(musicFileDir, "${song.id}.mp3")
+					    val cacehduri = FileProvider.getUriForFile(context, "com.music.app.fileprovider", cachedFile)
+    					    setDataSource(applicationContext, cacehduri)
+    					    prepareAsync()
                                         }else {
-                                            Log.i("SETURL"," NORMALURL " + it)
 					    val request = Request.Builder()
                 				.url(it)
                 				.build()
@@ -477,9 +487,7 @@ class MusicService : BaseMediaService() {
                         				if (inputStream != null) {
                             					// 将下载的音频文件设置给 MediaPlayer
                             					try {
-                                            			  Log.i("cache request"," NORMALURL " + it)
-
-								  val tempFile = File(context.cacheDir, "temp.mp3")
+								  val tempFile = File(musicFileDir, "${song.id}.mp3")
                     						  val outputStream = FileOutputStream(tempFile)
                     						  inputStream.copyTo(outputStream)
                     						  outputStream.close()
