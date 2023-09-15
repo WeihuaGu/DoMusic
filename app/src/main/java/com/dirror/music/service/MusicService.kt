@@ -336,9 +336,6 @@ class MusicService : BaseMediaService() {
 	val cacheSize = 300 * 1024 * 1024 // 300 MB
 	val cache = Cache(cacheDirectory, cacheSize.toLong())
 	val musicFileDir = File(context.cacheDir, "music_file")
-	if (!musicFileDir.exists()) {
-    		musicFileDir.mkdirs()
-	}
 	val eventListener = object : EventListener() {
     	   override fun responseHeadersEnd(call: Call, response: Response) {
         	val netResponse = response.networkResponse()
