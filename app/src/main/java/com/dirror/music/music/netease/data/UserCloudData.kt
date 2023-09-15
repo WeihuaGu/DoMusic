@@ -61,7 +61,7 @@ fun UserCloudData.SongData.toStandard(): StandardSongData {
         SOURCE_NETEASE_CLOUD,
         songId.toString(),
         name = songName,
-        simpleSong.al.picUrl,
+        simpleSong.al?.picUrl,
         arrayListOf(StandardSongData.StandardArtistData(
             null, this.artist
         )),
