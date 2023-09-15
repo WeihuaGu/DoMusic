@@ -391,6 +391,11 @@ class MusicService : BaseMediaService() {
         var personFM = MutableLiveData<Boolean>().also {
             it.value = mmkv.decodeBool(Config.PERSON_FM_MODE, false)
         }
+	fun checkAndCreateMusicFileDir() {
+    		if (!musicFileDir.exists()) {
+        		musicFileDir.mkdirs()
+    		}
+	}
 	fun isSongCached(songId: String): Boolean {
     		val cachedFile = File(musicFileDir, "$songId.mp3")
     		return cachedFile.exists()
@@ -436,6 +441,7 @@ class MusicService : BaseMediaService() {
             // 保存当前播放音乐
             mmkv.encode(Config.SERVICE_CURRENT_SONG, song)
             Log.e(TAG, "onDestroy: 成功保存歌曲恢复到 mmkv：${song.name}")
+	    checkAndCreateMusicFileDir()
 
             // MediaPlayer 重置
             mediaPlayer.reset()
