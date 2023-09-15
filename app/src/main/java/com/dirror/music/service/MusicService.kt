@@ -468,7 +468,7 @@ class MusicService : BaseMediaService() {
                                 } else {
                                     Log.i("SETURL"," NORMALURL " + it)
                                     try {
-                                        if(isSongCached(song.id)){
+                                        if(isSongCached(song.id?)){
                                             Log.i("cache music", "id: ${song.id} name: ${song.name}")
 					    val cachedFile = File(musicFileDir, "${song.id}.mp3")
 					    val cacehduri = FileProvider.getUriForFile(context, "com.music.app.fileprovider", cachedFile)
