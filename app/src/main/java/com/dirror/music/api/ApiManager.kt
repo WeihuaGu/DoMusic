@@ -18,15 +18,22 @@ const val API_DEFAULT = "https://cloudmusic.moriafly.xyz"
  * Dso Music 备用接口
  */
 
+@JvmField
 const val API_DSO = API_FROMUSER
+@JvmField
 const val API_MUSIC_API = API_FROMUSER
+@JvmField
 const val API_FCZBL_VIP = API_FROMUSER
+@JvmField
 const val API_IMJAD = API_FROMUSER
 
+@JvmField
 const val API_MUSIC_ELEUU = API_FROMUSER
 
+@JvmField
 const val API_AUTU = API_FROMUSER
 
+@JvmField
 const val API_LOGIN = API_AUTU
 
 
