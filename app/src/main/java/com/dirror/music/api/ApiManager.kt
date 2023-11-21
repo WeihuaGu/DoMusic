@@ -6,7 +6,7 @@ import com.dirror.music.manager.User
  */
 const val API_NETEASE = "https://music.163.com/api"
 
-const val API_FROMUSER = User.neteaseCloudMusicApi
+val API_FROMUSER = User.neteaseCloudMusicApi
 
 /**
  * Dso Music 默认 API
