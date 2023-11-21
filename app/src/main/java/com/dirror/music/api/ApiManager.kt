@@ -11,22 +11,22 @@ val API_FROMUSER = User.neteaseCloudMusicApi
 /**
  * Dso Music 默认 API
  */
-const val API_DEFAULT = "https://cloudmusic.moriafly.xyz"
+val API_DEFAULT = "https://cloudmusic.moriafly.xyz"
 
 /**
  * Dso Music 备用接口
  */
 
-const val API_DSO = API_FROMUSER
-const val API_MUSIC_API = API_FROMUSER
-const val API_FCZBL_VIP = API_FROMUSER
-const val API_IMJAD = API_FROMUSER
+val API_DSO = API_FROMUSER
+val API_MUSIC_API = API_FROMUSER
+val API_FCZBL_VIP = API_FROMUSER
+val API_IMJAD = API_FROMUSER
 
-const val API_MUSIC_ELEUU = API_FROMUSER
+val API_MUSIC_ELEUU = API_FROMUSER
 
-const val API_AUTU = API_FROMUSER
+val API_AUTU = API_FROMUSER
 
-const val API_LOGIN = API_AUTU
+val API_LOGIN = API_AUTU
 
 
 
