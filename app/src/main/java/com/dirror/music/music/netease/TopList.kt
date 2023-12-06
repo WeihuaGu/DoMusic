@@ -11,13 +11,12 @@ import com.google.gson.Gson
  * 排行榜
  */
 object TopList {
-    var api_usr = User.neteaseCloudMusicApi
+    fun getTopList(context: Context, success: (TopListData) -> Unit, failure: () -> Unit) {
+        var api_usr = User.neteaseCloudMusicApi
         if (api_usr.isEmpty()) {
             api_usr = "${API_AUTU}"
         }
-    var API = "${api_usr}/toplist/detail"
-
-    fun getTopList(context: Context, success: (TopListData) -> Unit, failure: () -> Unit) {
+        var API = "${api_usr}/toplist/detail"
         MagicHttp.OkHttpManager().getByCache(context, API, {
             try {
                 val topListData = Gson().fromJson(it, TopListData::class.java)
