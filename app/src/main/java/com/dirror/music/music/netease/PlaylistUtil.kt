@@ -21,7 +21,12 @@ object PlaylistUtil {
 
     @Deprecated("过时")
     fun getDetailPlaylist(id: Long, success: (ArrayList<StandardSongData>) -> Unit, failure: (String) -> Unit) {
-        val url = "$API_MUSIC_ELEUU/playlist/detail?id=$id"
+        var api_usr = User.neteaseCloudMusicApi
+        if (api_usr.isEmpty()) {
+            api_usr = "${API_AUTU}"
+        }
+        var url = "${api_usr}/playlist/detail?id=$id"
+
         loge("url:$url")
         MagicHttp.OkHttpManager().newGet(url, { response ->
             val detailPlaylistData = Gson().fromJson(response, DetailPlaylistData::class.java)
@@ -86,7 +91,12 @@ object PlaylistUtil {
      * 获取歌单信息
      */
     fun getPlaylistInfo(context: Context, id: Long, success: (DetailPlaylistInnerData) -> Unit) {
-        val url = "$API_AUTU/playlist/detail?id=$id&cookie=${AppConfig.cookie}"
+
+        var api_usr = User.neteaseCloudMusicApi
+        if (api_usr.isEmpty()) {
+            api_usr = "${API_AUTU}"
+        }
+        var url = "${api_usr}/playlist/detail?id=$id&cookie=${AppConfig.cookie}"
         Log.i(TAG, "获取歌单信息 $url")
         MagicHttp.OkHttpManager().getByCache(context, url, { response ->
             try {

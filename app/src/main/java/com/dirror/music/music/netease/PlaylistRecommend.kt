@@ -2,6 +2,7 @@ package com.dirror.music.music.netease
 
 import android.content.Context
 import com.dirror.music.api.API_AUTU
+import com.dirror.music.manager.User
 import com.dirror.music.util.MagicHttp
 import com.dirror.music.util.loge
 import com.google.gson.Gson
@@ -12,8 +13,11 @@ import com.google.gson.Gson
 object PlaylistRecommend {
 
     fun getPlaylistRecommend(context: Context, success: (ArrayList<PlaylistRecommendDataResult>) -> Unit, failure: () -> Unit) {
-
-        val url = "${API_AUTU}/personalized?limit=16"
+        var api_usr = User.neteaseCloudMusicApi
+        if (api_usr.isEmpty()) {
+            api_usr = "${API_AUTU}"
+        }
+        var url = "${api_usr}/personalized?limit=16"
 
         MagicHttp.OkHttpManager().getByCache(context, url, {
             try {

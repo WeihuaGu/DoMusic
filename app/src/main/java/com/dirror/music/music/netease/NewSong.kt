@@ -2,6 +2,8 @@ package com.dirror.music.music.netease
 
 import android.content.Context
 import com.dirror.music.api.CloudMusicApi
+import com.dirror.music.api.API_AUTU
+import com.dirror.music.manager.User
 import com.dirror.music.music.netease.data.NewSongData
 import com.dirror.music.music.standard.data.SOURCE_NETEASE
 import com.dirror.music.music.standard.data.StandardSongData
@@ -16,7 +18,11 @@ object NewSong {
 
     fun getNewSong(context: Context, success: (ArrayList<StandardSongData>) -> Unit) {
 
-        val url = CloudMusicApi.PERSONALIZED_NEW_SONG
+        var api_usr = User.neteaseCloudMusicApi
+        if (api_usr.isEmpty()) {
+            api_usr = "${API_AUTU}"
+        }
+        var url = "${api_usr}/personalized/newsong"
         MagicHttp.OkHttpManager().getByCache(context, url, { string ->
             try {
                 val newSongData = Gson().fromJson(string, NewSongData::class.java)
